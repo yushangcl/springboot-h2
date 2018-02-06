@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="debug">
+    <properties>
+        <!-- 基本的文件的输出信息的配置 -->
+        <property name="LOG_HOME">logs</property>
+        <!-- 日志备份目录 -->
+        <property name="SERVER_NAME">spring-boot</property>
+        <property name="PROBLEM_LOG">problem-log</property>
+        <property name="BACKUP_HOME">{LOG_HOME}/${SERVER_NAME}</property>
+        <property name="STAT_NAME">stat</property>
+    </properties>
+    <appenders>
+        <!-- 定义控制台输出 -->
+        <CONSOLE name="CONSOLE" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss,SSS}] %p %sid [%t] %l - %m%n"/>
+        </CONSOLE>
+        <!-- 文件日志 -->
+        <RollingRandomAccessFile name="DAILY-ROLL-FILE" fileName="${LOG_HOME}/${SERVER_NAME}.log"
+                                 filePattern="${LOG_HOME}/${SERVER_NAME}.%d{yyyy-MM-dd-HH}.log">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss,SSS}] %p %sid [%t] %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="DAILY-ROLL-FILE-PROBLEM" fileName="${LOG_HOME}/${PROBLEM_LOG}.log"
+                                 filePattern="${LOG_HOME}/${PROBLEM_LOG}.%d{yyyy-MM-dd-HH}.log">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss,SSS}] %p %sid [%t] %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+            </Policies>
+        </RollingRandomAccessFile>
+    </appenders>
+    <loggers>
+        <logger name="org.springframework" level="info" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="DAILY-ROLL-FILE"/>
+        </logger>
+        <logger name="java.sql" level="debug" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="DAILY-ROLL-FILE"/>
+        </logger>
+        <logger name="com.whh.spring.boot" level="debug" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="DAILY-ROLL-FILE"/>
+        </logger>
+        <!-- Root Logger -->
+        <root level="debug">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="DAILY-ROLL-FILE"/>
+        </root>
+    </loggers>
+</configuration>
