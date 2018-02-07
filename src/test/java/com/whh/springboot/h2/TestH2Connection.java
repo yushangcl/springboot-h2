@@ -1,5 +1,6 @@
 package com.whh.springboot.h2;
 
+import com.whh.springboot.h2.utils.JdbcUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -33,5 +34,7 @@ public class TestH2Connection {
         stmt.close();
         conn.close();
     }
+
+
 
 }
